@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    3-phase plan for TL_A and TL_B (10 links each).
+
+    SUMO link indices:
+        0  W-left     1  W-straight  2  W-right
+        3  N-left     4  N-straight  5  N-right
+        6  E-straight 7  E-right
+        8  S-straight 9  S-right
+
+    Phase A  (phase 0/1) : N-right + S-right
+        "9 and 5 open together and close together"
+        links 5,9 = G
+
+    Phase B  (phase 2/3) : E-all + W-all
+        "6,7 and 0,1,2 open together — right turns from 6,7
+         use lane 465932558#0_1 (outer), W-left (0) is yield
+         because it crosses E-straight (6)"
+        links 1,2,6,7 = G  |  link 0 = g (yield)
+
+    Phase C  (phase 4/5) : N-all + S-all
+        "3 and 8 open green, 3 yields, 4 joins 8 on green
+         with 5 and 9 on green yield"
+        links 3,4,8 = G  |  links 5,9 = g (yield)
+
+    Agent: MAJOR_GREEN_PHASES = [0, 2, 4]
+           YELLOW_AFTER        = {0:1, 2:3, 4:5}
+           Action space        : MultiDiscrete([3, 3, 3])
+-->
+<additional>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         TL_A  (6073919354)
+         ═══════════════════════════════════════════════════════════ -->
+    <tlLogic id="6073919354" type="static" programID="rl_program" offset="0">
+
+        <!-- Phase A — N-right + S-right  (links 5,9 protected) -->
+        <phase duration="30" state="rrrrrGrrrG"/>
+        <phase duration="4"  state="rrrrryrrry"/>
+
+        <!-- Phase B — E-all + W-all  (W-left yield, rest protected) -->
+        <phase duration="36" state="gGGrrrGGrr"/>
+        <phase duration="4"  state="yyyrrryyrr"/>
+
+        <!-- Phase C — N-all + S-all  (N-left/str/S-str protected, N-right/S-right yield) -->
+        <phase duration="36" state="rrrGGgrrGg"/>
+        <phase duration="4"  state="rrryyyrryy"/>
+
+    </tlLogic>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         TL_B  (6073919354_B)  — identical geometry, _B suffix edges
+         ═══════════════════════════════════════════════════════════ -->
+    <tlLogic id="6073919354_B" type="static" programID="rl_program" offset="0">
+
+        <!-- Phase A — N-right + S-right -->
+        <phase duration="30" state="rrrrrGrrrG"/>
+        <phase duration="4"  state="rrrrryrrry"/>
+
+        <!-- Phase B — E-all + W-all (W-left yield) -->
+        <phase duration="36" state="gGGrrrGGrr"/>
+        <phase duration="4"  state="yyyrrryyrr"/>
+
+        <!-- Phase C — N-all + S-all -->
+        <phase duration="36" state="rrrGGgrrGg"/>
+        <phase duration="4"  state="rrryyyrryy"/>
+
+    </tlLogic>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         TL_C  (6073919354_C)  — T-junction, one approach at a time
+         ═══════════════════════════════════════════════════════════ -->
+    <tlLogic id="6073919354_C" type="static" programID="rl_program" offset="0">
+        <phase duration="41" state="GGrrrr"/>
+        <phase duration="4"  state="yyrrrr"/>
+        <phase duration="41" state="rrGGrr"/>
+        <phase duration="4"  state="rryyrr"/>
+        <phase duration="41" state="rrrrGG"/>
+        <phase duration="4"  state="rrrryy"/>
+    </tlLogic>
+
+</additional>

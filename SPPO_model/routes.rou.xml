@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
+    <vTypeDistribution id="main_road_traffic"
+        vTypes="car_small car_normal car_suv car_sport moto truck bus_city bus_articulated"
+        probabilities="0.25 0.25 0.20 0.05 0.10 0.0007 0.0005 0.0003"/>
+    <vTypeDistribution id="side_traffic"
+        vTypes="car_small car_normal car_suv moto"
+        probabilities="0.40 0.30 0.20 0.10"/>
+    <vTypeDistribution id="light_traffic"
+        vTypes="car_small car_normal car_suv moto"
+        probabilities="0.50 0.25 0.20 0.05"/>
+
+    <!-- GRADUAL BUILDUP: 5 phases over 300s, then cooldown 300-400s, then steady 400s+ -->
+    <!-- ALL FLOWS SORTED BY begin TIME (SUMO requirement) -->
+
+    <!-- ===== begin=0 : Phase 1 - Light traffic ===== -->
+    <flow id="E0_to_4659_phase1" type="main_road_traffic" begin="0" end="60" period="18"
+          from="E0" via="682411362 465932558#0 465932558#1" to="465932558#2"/>
+    <flow id="E0_to_4707_phase1" type="main_road_traffic" begin="0" end="60" period="24"
+          from="E0" via="682411362 655985522" to="-470773638#0"/>
+    <flow id="R4659_to_4707_phase1" type="main_road_traffic" begin="0" end="60" period="18"
+          from="-465932558#2"
+          via="-465932558#1.34 -470773638#1"
+          to="-470773638#0"/>
+    <flow id="R4659_to_E6_phase1" type="main_road_traffic" begin="0" end="60" period="24"
+          from="-465932558#2"
+          via="-465932558#1.34 -465932558#0 460085149"
+          to="E6"/>
+    <flow id="4707_to_4659_phase1" type="side_traffic" begin="0" end="60" period="36"
+          from="470773638#0" via="655985523" to="465932558#2"/>
+    <flow id="4707_to_E6_phase1" type="side_traffic" begin="0" end="60" period="42"
+          from="470773638#0"
+          via="470773638#1 -465932558#0 460085149"
+          to="E6"/>
+    <flow id="E0_to_E5" type="light_traffic" begin="0" end="300" period="90"
+          from="E0" via="682411362 465932558#0" to="E5"/>
+    <flow id="R4659_to_E5" type="light_traffic" begin="0" end="300" period="120"
+          from="-465932558#2"
+          via="-465932558#1"
+          to="E5"/>
+    <flow id="4707_to_E5" type="light_traffic" begin="0" end="300" period="90"
+          from="470773638#0" via="470773638#1" to="E5"/>
+    <flow id="E5_out_to_4707_phase1" type="light_traffic" begin="0" end="60" period="120"
+          from="-E5" via="-470773638#1" to="-470773638#0"/>
+    <flow id="E5_out_to_4659" type="light_traffic" begin="0" end="300" period="120"
+          from="-E5" via="465932558#1" to="465932558#2"/>
+    <flow id="E5_out_to_E6" type="light_traffic" begin="0" end="300" period="150"
+          from="-E5" via="-465932558#0 460085149" to="E6"/>
+
+    <!-- ===== begin=60 : Phase 2 - Medium traffic ===== -->
+    <flow id="E0_to_4659_phase2" type="main_road_traffic" begin="60" end="120" period="10"
+          from="E0" via="682411362 465932558#0 465932558#1" to="465932558#2"/>
+    <flow id="E0_to_4707_phase2" type="main_road_traffic" begin="60" end="120" period="14"
+          from="E0" via="682411362 655985522" to="-470773638#0"/>
+    <flow id="R4659_to_4707_phase2" type="main_road_traffic" begin="60" end="120" period="10"
+          from="-465932558#2"
+          via="-465932558#1.34 -470773638#1"
+          to="-470773638#0"/>
+    <flow id="R4659_to_E6_phase2" type="main_road_traffic" begin="60" end="120" period="14"
+          from="-465932558#2"
+          via="-465932558#1.34 -465932558#0 460085149"
+          to="E6"/>
+    <flow id="4707_to_4659_phase2" type="side_traffic" begin="60" end="120" period="20"
+          from="470773638#0" via="655985523" to="465932558#2"/>
+    <flow id="4707_to_E6_phase2" type="side_traffic" begin="60" end="120" period="24"
+          from="470773638#0"
+          via="470773638#1 -465932558#0 460085149"
+          to="E6"/>
+    <flow id="E5_out_to_4707_phase2" type="light_traffic" begin="60" end="120" period="80"
+          from="-E5" via="-470773638#1" to="-470773638#0"/>
+
+    <!-- ===== begin=120 : Phase 3 - Heavy traffic ===== -->
+    <flow id="E0_to_4659_phase3" type="main_road_traffic" begin="120" end="180" period="6"
+          from="E0" via="682411362 465932558#0 465932558#1" to="465932558#2"/>
+    <flow id="E0_to_4707_phase3" type="main_road_traffic" begin="120" end="180" period="8"
+          from="E0" via="682411362 655985522" to="-470773638#0"/>
+    <flow id="R4659_to_4707_phase3" type="main_road_traffic" begin="120" end="180" period="6"
+          from="-465932558#2"
+          via="-465932558#1.34 -470773638#1"
+          to="-470773638#0"/>
+    <flow id="R4659_to_E6_phase3" type="main_road_traffic" begin="120" end="180" period="8"
+          from="-465932558#2"
+          via="-465932558#1.34 -465932558#0 460085149"
+          to="E6"/>
+    <flow id="4707_to_4659_phase3" type="side_traffic" begin="120" end="180" period="12"
+          from="470773638#0" via="655985523" to="465932558#2"/>
+    <flow id="4707_to_E6_phase3" type="side_traffic" begin="120" end="180" period="14"
+          from="470773638#0"
+          via="470773638#1 -465932558#0 460085149"
+          to="E6"/>
+    <flow id="E5_out_to_4707_phase3" type="light_traffic" begin="120" end="180" period="60"
+          from="-E5" via="-470773638#1" to="-470773638#0"/>
+
+    <!-- ===== begin=180 : Phase 4 - Peak traffic ===== -->
+    <flow id="E0_to_4659_phase4" type="main_road_traffic" begin="180" end="240" period="5"
+          from="E0" via="682411362 465932558#0 465932558#1" to="465932558#2"/>
+    <flow id="E0_to_4707_phase4" type="main_road_traffic" begin="180" end="240" period="6"
+          from="E0" via="682411362 655985522" to="-470773638#0"/>
+    <flow id="R4659_to_4707_phase4" type="main_road_traffic" begin="180" end="240" period="5"
+          from="-465932558#2"
+          via="-465932558#1.34 -470773638#1"
+          to="-470773638#0"/>
+    <flow id="R4659_to_E6_phase4" type="main_road_traffic" begin="180" end="240" period="6"
+          from="-465932558#2"
+          via="-465932558#1.34 -465932558#0 460085149"
+          to="E6"/>
+    <flow id="4707_to_4659_phase4" type="side_traffic" begin="180" end="240" period="10"
+          from="470773638#0" via="655985523" to="465932558#2"/>
+    <flow id="4707_to_E6_phase4" type="side_traffic" begin="180" end="240" period="12"
+          from="470773638#0"
+          via="470773638#1 -465932558#0 460085149"
+          to="E6"/>
+    <flow id="E5_out_to_4707_phase4" type="light_traffic" begin="180" end="240" period="50"
+          from="-E5" via="-470773638#1" to="-470773638#0"/>
+
+    <!-- ===== begin=240 : Phase 5 - Maximum traffic ===== -->
+    <flow id="E0_to_4659_phase5" type="main_road_traffic" begin="240" end="300" period="4"
+          from="E0" via="682411362 465932558#0 465932558#1" to="465932558#2"/>
+    <flow id="E0_to_4707_phase5" type="main_road_traffic" begin="240" end="300" period="5"
+          from="E0" via="682411362 655985522" to="-470773638#0"/>
+    <flow id="R4659_to_4707_phase5" type="main_road_traffic" begin="240" end="300" period="4"
+          from="-465932558#2"
+          via="-465932558#1.34 -470773638#1"
+          to="-470773638#0"/>
+    <flow id="R4659_to_E6_phase5" type="main_road_traffic" begin="240" end="300" period="5"
+          from="-465932558#2"
+          via="-465932558#1.34 -465932558#0 460085149"
+          to="E6"/>
+    <flow id="4707_to_4659_phase5" type="side_traffic" begin="240" end="300" period="8"
+          from="470773638#0" via="655985523" to="465932558#2"/>
+    <flow id="4707_to_E6_phase5" type="side_traffic" begin="240" end="300" period="10"
+          from="470773638#0"
+          via="470773638#1 -465932558#0 460085149"
+          to="E6"/>
+    <flow id="E5_out_to_4707_phase5" type="light_traffic" begin="240" end="300" period="45"
+          from="-E5" via="-470773638#1" to="-470773638#0"/>
+
+    <!-- ===== begin=300 : Cooldown - gradual step-down from peak ===== -->
+    <flow id="E0_to_4659_cooldown" type="main_road_traffic" begin="300" end="400" period="6"
+          from="E0" via="682411362 465932558#0 465932558#1" to="465932558#2"/>
+    <flow id="R4659_to_4707_cooldown" type="main_road_traffic" begin="300" end="400" period="6"
+          from="-465932558#2" via="-465932558#1.34 -470773638#1" to="-470773638#0"/>
+    <flow id="4707_to_4659_cooldown" type="side_traffic" begin="300" end="400" period="14"
+          from="470773638#0" via="655985523" to="465932558#2"/>
+
+    <!-- ===== begin=400 : Steady state - moderate continuous traffic ===== -->
+    <flow id="E0_to_4659_steady" type="main_road_traffic" begin="400" end="99999" period="12"
+          from="E0" via="682411362 465932558#0 465932558#1" to="465932558#2"/>
+    <flow id="E0_to_4707_steady" type="main_road_traffic" begin="400" end="99999" period="16"
+          from="E0" via="682411362 655985522" to="-470773638#0"/>
+    <flow id="R4659_to_4707_steady" type="main_road_traffic" begin="400" end="99999" period="12"
+          from="-465932558#2" via="-465932558#1.34 -470773638#1" to="-470773638#0"/>
+    <flow id="R4659_to_E6_steady" type="main_road_traffic" begin="400" end="99999" period="16"
+          from="-465932558#2" via="-465932558#1.34 -465932558#0 460085149" to="E6"/>
+    <flow id="4707_to_4659_steady" type="side_traffic" begin="400" end="99999" period="24"
+          from="470773638#0" via="655985523" to="465932558#2"/>
+    <flow id="4707_to_E6_steady" type="side_traffic" begin="400" end="99999" period="28"
+          from="470773638#0" via="470773638#1 -465932558#0 460085149" to="E6"/>
+    <flow id="E0_to_E5_steady" type="light_traffic" begin="400" end="99999" period="90"
+          from="E0" via="682411362 465932558#0" to="E5"/>
+</routes>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<additional>
+
+    <tlLogic id="6073919354" type="static" programID="fixed" offset="0">
+
+        <!-- PHASE 1: 0,1,2 -->
+        <phase duration="30" state="GGGrrrrrrrr"/>
+        <phase duration="3" state="yyyrrrrrrrr"/>
+        <phase duration="2" state="rrrrrrrrrrr"/>
+
+        <!-- PHASE 2: 3 -->
+        <phase duration="25" state="rrrGrrrrrrr"/>
+        <phase duration="3" state="rrryrrrrrrr"/>
+        <phase duration="2" state="rrrrrrrrrrr"/>
+
+        <!-- PHASE 3 (SWAPPED): 5,9 -->
+        <phase duration="30" state="rrrrrGrrrGr"/>
+        <phase duration="3" state="rrrrryrrryy"/>
+        <phase duration="2" state="rrrrrrrrrrr"/>
+
+        <!-- PHASE 4 (SWAPPED): 4,8 -->
+        <phase duration="25" state="rrrrGrrrGrr"/>
+        <phase duration="3" state="rrrryrrryrr"/>
+        <phase duration="2" state="rrrrrrrrrrr"/>
+
+        <!-- PHASE 5: 6,7 -->
+        <phase duration="30" state="rrrrrrGGrrr"/>
+        <phase duration="3" state="rrrrrryyrrr"/>
+        <phase duration="2" state="rrrrrrrrrrr"/>
+
+    </tlLogic>
+
+</additional>

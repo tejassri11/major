@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2026-04-26 15:07:22 by Eclipse SUMO sumo Version 1.24.0
+-->
+
+<sumoConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
+
+    <input>
+        <net-file value="gurgaon_iffco.net.xml"/>
+        <route-files value="empty.rou.xml"/>
+        <additional-files value="vtypes.add.xml,tls.add.xml"/>
+    </input>
+
+    <time>
+        <begin value="0"/>
+        <end value="100000000"/>
+    </time>
+
+    <processing>
+        <ignore-route-errors value="true"/>
+        <lateral-resolution value="0.8"/>
+        <collision.action value="warn"/>
+    </processing>
+
+    <report>
+        <verbose value="true"/>
+        <no-step-log value="false"/>
+    </report>
+
+</sumoConfiguration>

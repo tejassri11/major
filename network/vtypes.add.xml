@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<additional xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/additional_file.xsd">
+
+    <!-- ========================================================= -->
+    <!--  VEHICLE TYPES WITH VALID GUI SHAPES                     -->
+    <!-- ========================================================= -->
+
+    <!-- Small Car / Hatchback (e.g. Maruti Alto / Swift) -->
+    <vType id="car_small" vClass="passenger" accel="2.5" decel="4.0"
+           length="3.6" width="1.5" maxSpeed="20"
+           latAlignment="nice" minGapLat="0.4" minGap="1.2"
+           color="random" guiShape="passenger"/>
+
+    <!-- Normal Car / Sedan (e.g. Dzire / Honda City) -->
+    <vType id="car_normal" vClass="passenger" accel="2.6" decel="4.5"
+           length="4.2" width="1.7" maxSpeed="22"
+           latAlignment="nice" minGapLat="0.5" minGap="1.5"
+           color="random" guiShape="passenger/sedan"/>
+
+    <!-- SUV / Crossover (e.g. Creta / Brezza) -->
+    <vType id="car_suv" vClass="passenger" accel="2.3" decel="4.2"
+           length="4.4" width="1.8" maxSpeed="22"
+           latAlignment="nice" minGapLat="0.5" minGap="1.5"
+           color="random" guiShape="passenger"/>
+
+    <!-- Sports / Premium Car -->
+    <vType id="car_sport" vClass="passenger" accel="3.2" decel="5.0"
+           length="4.3" width="1.8" maxSpeed="25"
+           latAlignment="nice" minGapLat="0.5" minGap="1.5"
+           color="random" guiShape="passenger"/>
+
+    <!-- ========================================================= -->
+    <!--  INDIAN AUTO-RICKSHAW (Three-Wheeler)                    -->
+    <!-- ========================================================= -->
+    <vType id="auto_rickshaw" vClass="passenger" accel="1.8" decel="3.5"
+           length="2.6" width="1.3" maxSpeed="14"
+           latAlignment="arbitrary" minGapLat="0.3" minGap="0.8"
+           color="0.1,0.65,0.1" guiShape="delivery"/>
+
+    <!-- ========================================================= -->
+    <!--  MOTORBIKES & TWO-WHEELERS (Dominant Indian Mode)        -->
+    <!-- ========================================================= -->
+    <vType id="moto" vClass="motorcycle" accel="3.5" decel="5.0"
+           length="2.0" width="0.75" maxSpeed="20"
+           latAlignment="arbitrary" minGapLat="0.2" minGap="0.5"
+           color="random" guiShape="motorcycle"/>
+
+    <vType id="two_wheeler" vClass="motorcycle" accel="3.5" decel="5.0"
+           length="1.9" width="0.7" maxSpeed="20"
+           latAlignment="arbitrary" minGapLat="0.2" minGap="0.5"
+           color="random" guiShape="motorcycle"/>
+
+    <!-- ========================================================= -->
+    <!--  HEAVY VEHICLES & BUSES                                  -->
+    <!-- ========================================================= -->
+
+    <!-- City Transit Bus (e.g. Tata Marcopolo / Ashok Leyland) -->
+    <vType id="bus_city" vClass="bus" accel="1.2" decel="2.5"
+           length="11.5" width="2.55" maxSpeed="15"
+           latAlignment="center" minGapLat="0.7" minGap="2.5"
+           color="0.85,0.1,0.1" guiShape="bus"/>
+
+    <!-- Articulated / Intercity Bus -->
+    <vType id="bus_articulated" vClass="bus" accel="1.0" decel="2.0"
+           length="14.0" width="2.6" maxSpeed="15"
+           latAlignment="center" minGapLat="0.7" minGap="2.5"
+           color="0.1,0.3,0.8" guiShape="bus"/>
+
+    <!-- Light Commercial Vehicle / Truck (e.g. Tata Ace / 407) -->
+    <vType id="truck_lcv" vClass="truck" accel="1.5" decel="2.8"
+           length="4.8" width="1.9" maxSpeed="16"
+           latAlignment="nice" minGapLat="0.5" minGap="1.5"
+           color="0.9,0.7,0.2" guiShape="truck"/>
+
+    <!-- Medium/Heavy Truck -->
+    <vType id="truck" vClass="truck" accel="1.1" decel="2.2"
+           length="7.5" width="2.5" maxSpeed="16"
+           latAlignment="center" minGapLat="0.7" minGap="2.5"
+           color="0.9,0.5,0.1" guiShape="truck"/>
+
+    <!-- Long Trailer -->
+    <vType id="trailer" vClass="truck" accel="0.9" decel="1.8"
+           length="12.0" width="2.6" maxSpeed="14"
+           latAlignment="center" minGapLat="0.8" minGap="3.0"
+           color="0.7,0.3,0.1" guiShape="truck"/>
+
+</additional>

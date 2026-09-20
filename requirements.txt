@@ -1,0 +1,28 @@
+# PALMS — Python dependencies (verified against the rl_env used for the project)
+# Install:  pip install -r requirements.txt
+# Note: SUMO must also be installed and SUMO_HOME set (see README). The
+# eclipse-sumo wheel below provides the `traci` Python API used by the env.
+
+# --- Reinforcement learning & numerics ---
+torch==2.11.0
+numpy==2.4.6
+gymnasium==1.2.2
+stable_baselines3==2.7.0          # single-agent PPO baseline (SPPO_model / train_ppo.py)
+
+# --- Traffic simulation ---
+eclipse-sumo==1.25.0              # SUMO + traci Python bindings
+
+# --- Data, plotting & dashboard ---
+pandas==3.0.3
+matplotlib==3.10.7
+plotly==6.7.0
+streamlit==1.57.0
+
+# --- Computer vision (vehicle detection from video) ---
+ultralytics==8.4.46               # YOLOv8
+opencv-python==4.13.0.92
+
+# --- Reporting & presentation tooling ---
+python-pptx==1.0.2
+lxml==6.1.1
+manim==0.20.1                     # system-overview animations (animations/)

@@ -1,0 +1,65 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.py~
+*.egg-info/
+.pytest_cache/
+
+# Virtual environments
+.venv/
+rl_env/
+venv/
+env/
+ENV/
+
+# IDE & Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# RAW OSM Data Files (Downloaded map extracts)
+network/*.osm
+
+# Training artifacts & logs
+ppo_models/
+ppo_logs/
+mappo_logs/
+*.log
+
+# MAPPO checkpoints — keep best_/final_ only; intermediate numbered checkpoints are regenerable
+mappo_models/actor_*.pth
+mappo_models/critic_*.pth
+
+# Generated evaluation / plot outputs
+output/
+eval_summary.csv
+eval_output.txt
+
+# Animation / manim render output
+media/
+
+# Large binary / weights files
+*.mp4
+*.zip
+yolov8*.pt
+first_frame.jpg
+
+# Antigravity & Agent Scratch
+.gemini/
+.claude/
+prism_session.json
+prism_profile/
+
+# OS Specific
+desktop.ini
+.DS_Store
+Thumbs.db
+
+# SUMO output files
+tripinfo.xml
+docs/
+

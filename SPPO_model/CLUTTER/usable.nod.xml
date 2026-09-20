@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2025-11-11 00:25:37 by Eclipse SUMO netconvert Version 1.24.0
+<netconvertConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netconvertConfiguration.xsd">
+
+    <input>
+        <sumo-net-file value="C:\Users\tsotl\help\fixed.net.xml"/>
+    </input>
+
+    <output>
+        <plain-output-prefix value="usable"/>
+    </output>
+
+    <processing>
+        <geometry.min-radius.fix.railways value="false"/>
+        <geometry.avoid-overlap value="false"/>
+        <geometry.max-grade.fix value="false"/>
+        <offset.disable-normalization value="true"/>
+        <lefthand value="1"/>
+    </processing>
+
+    <junctions>
+        <no-turnarounds value="true"/>
+        <junctions.corner-detail value="5"/>
+        <junctions.limit-turn-speed value="5.50"/>
+        <rectangular-lane-cut value="0"/>
+    </junctions>
+
+    <pedestrian>
+        <walkingareas value="0"/>
+    </pedestrian>
+
+</netconvertConfiguration>
+-->
+
+<nodes version="1.20" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/nodes_file.xsd">
+    <location netOffset="0.00,0.00" convBoundary="508842.46,-2492495.19,509271.33,-2492017.05" origBoundary="27.085993,-22.542254,27.105286,-22.534714" projParameter="+proj=utm +zone=35 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"/>
+
+    <node id="4557655746" x="509133.62" y="-2492443.22" type="unregulated"/>
+    <node id="4557655752" x="509126.25" y="-2492439.56" type="unregulated"/>
+    <node id="4649671177" x="508842.46" y="-2492325.40" type="dead_end"/>
+    <node id="6073363232" x="509271.33" y="-2492017.05" type="dead_end"/>
+    <node id="6145489304" x="509160.50" y="-2492359.68" type="unregulated"/>
+    <node id="6145489310" x="509112.24" y="-2492394.47" type="unregulated" shape="509119.91,-2492403.84 509122.10,-2492401.50 509121.88,-2492401.05 509122.16,-2492401.00 509122.70,-2492401.07 509123.50,-2492401.25 509124.55,-2492401.56 509126.41,-2492395.43 509126.43,-2492394.63 509126.24,-2492391.38 509123.89,-2492392.04 509122.10,-2492392.58 509120.59,-2492392.94 509119.09,-2492393.03 509117.34,-2492392.77 509115.06,-2492392.08 509112.91,-2492398.11 509115.89,-2492399.58 509116.77,-2492400.38 509117.58,-2492401.32 509118.54,-2492402.45"/>
+    <node id="J0" x="509112.77" y="-2492489.13" type="dead_end"/>
+    <node id="J10" x="509198.07" y="-2492420.74" type="dead_end"/>
+    <node id="J9" x="509119.91" y="-2492495.19" type="dead_end"/>
+    <node id="cluster_4557655751_6073919354" x="509138.88" y="-2492417.16" type="traffic_light" tl="cluster_4557655751_6073919354"/>
+</nodes>

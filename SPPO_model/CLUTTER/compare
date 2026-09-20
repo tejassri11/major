@@ -1,0 +1,258 @@
+"""
+compare_ppo_fixed_adapted.py
+RUN: python compare_ppo_fixed_adapted.py
+
+This script uses your env.py (SumoEnv) and runs:
+ - PPO (SB3) using your SumoEnv on PORT PPO_PORT
+ - Fixed-time baseline using a direct traci connection on PORT FIXED_PORT
+ - One plotting thread that shows PPO vs FIXED metrics live
+
+It monkeypatches env.start_sumo to inject '--remote-port' when the env calls start_sumo().
+"""
+
+import os
+import time
+import subprocess
+import threading
+import numpy as np
+import matplotlib.pyplot as plt
+import traci
+from stable_baselines3 import PPO
+
+# -------------- USER CONFIG --------------
+SUMO_CFG = "map.sumocfg"
+MODEL_PATH = "ppo_traffic_final.zip"   # path to your trained SB3 model
+SUMO_BINARY = "sumo"                   # or full path to sumo.exe
+SUMO_GUI_BINARY = "sumo-gui"           # or full path to sumo-gui.exe
+
+PPO_PORT = 8813
+FIXED_PORT = 8814
+
+PLOT_UPDATE_INTERVAL = 0.6   # seconds between plot refreshes (increase to reduce load)
+
+# lanes used by your env.py (kept here for safety fallback)
+INCOMING_LANES = [
+    "-E5_0",
+    "-465932558#1.34_0",
+    "-465932558#1.34_1",
+    "-465932558#1.34_2",
+    "470773638#1_0",
+    "465932558#0_0",
+    "465932558#0_1",
+]
+OUTGOING_LANES = [
+    "E5_0",
+    "-465932558#0_0",
+    "-465932558#0_1",
+    "-470773638#1_0",
+    "465932558#1_0",
+]
+
+# -------------- SHARED METRIC BUFFERS --------------
+metrics = {
+    "ppo": {k: [] for k in ["delay", "queue", "throughput", "stops", "pressure"]},
+    "fixed": {k: [] for k in ["delay", "queue", "throughput", "stops", "pressure"]},
+}
+locks = {k: threading.Lock() for k in metrics.keys()}
+
+def append_metric(which, name, value):
+    with locks[which]:
+        metrics[which][name].append(float(value))
+
+# -------------- UTIL: launch SUMO subprocess (so port binding is explicit) --------------
+def start_sumo_subprocess(sumo_bin, sumo_cfg, port, use_gui=False):
+    # Build command with explicit remote port
+    cmd = [sumo_bin, "-c", sumo_cfg, "--remote-port", str(port)]
+    # On Windows, ensure no shell quoting issues; Popen handles lists fine
+    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    return proc
+
+# -------------- FIXED WORKER --------------
+def fixed_worker(port):
+    # Wait shortly if needed (caller should start process)
+    time.sleep(0.6)
+    # Connect to the SUMO instance
+    tr = traci.connect(port=port)
+    try:
+        while tr.simulation.getMinExpectedNumber() > 0:
+            tr.simulationStep()
+
+            # metrics (same as env._compute_metrics but simplified)
+            veh_ids = tr.vehicle.getIDList()
+            # delay (normalized speed-loss)
+            delays = []
+            for vid in veh_ids:
+                try:
+                    v = tr.vehicle.getSpeed(vid)
+                    allowed = tr.vehicle.getAllowedSpeed(vid)
+                    d = 1.0 - (v / allowed) if allowed > 0 else 0.0
+                    delays.append(np.clip(d, 0.0, 1.0))
+                except Exception:
+                    pass
+            append_metric("fixed", "delay", np.mean(delays) if delays else 0.0)
+
+            # queue (incoming lanes)
+            q = [tr.lane.getLastStepHaltingNumber(l) for l in INCOMING_LANES]
+            append_metric("fixed", "queue", float(np.mean(q)))
+
+            # throughput (outgoing)
+            tp = sum(tr.lane.getLastStepVehicleNumber(l) for l in OUTGOING_LANES)
+            append_metric("fixed", "throughput", float(tp))
+
+            # stops ratio
+            stops = 0
+            total = 0
+            for l in INCOMING_LANES:
+                vids = tr.lane.getLastStepVehicleIDs(l)
+                for vid in vids:
+                    total += 1
+                    try:
+                        if tr.vehicle.getSpeed(vid) < 0.1:
+                            stops += 1
+                    except Exception:
+                        pass
+            append_metric("fixed", "stops", (stops / total) if total > 0 else 0.0)
+
+            # pressure
+            inc = sum(tr.lane.getLastStepVehicleNumber(l) for l in INCOMING_LANES)
+            out = sum(tr.lane.getLastStepVehicleNumber(l) for l in OUTGOING_LANES)
+            append_metric("fixed", "pressure", float(inc - out))
+    finally:
+        try:
+            tr.close()
+        except Exception:
+            pass
+        print("Fixed worker finished.")
+
+# -------------- PPO WORKER (uses your env.SumoEnv) --------------
+def ppo_worker(port):
+    # Import your env class (env.py must be in Python path or same folder)
+    from env import SumoEnv   # path: /mnt/data/env.py in your project
+    # Create the env but monkeypatch its start_sumo to start SUMO with our port
+    env = SumoEnv(sumo_cfg=SUMO_CFG, use_gui=False)
+
+    # Monkeypatch start_sumo so that when env.reset() calls start_sumo we inject --remote-port
+    def monkey_start_sumo():
+        # ensure no previous loaded traci
+        try:
+            if traci.isLoaded():
+                traci.close()
+        except Exception:
+            pass
+        # call traci.start with explicit port
+        cmd = [SUMO_BINARY, "-c", env.sumo_cfg, "--remote-port", str(port)]
+        traci.start(cmd)
+
+    env.start_sumo = monkey_start_sumo
+
+    # Load model
+    model = PPO.load(MODEL_PATH)
+
+    # Reset (this will call our monkeypatched start_sumo)
+    obs, info = env.reset()
+
+    try:
+        done = False
+        while not done:
+            # Stable-baselines3 expects env.step() to be in Gym API form.
+            # We use deterministic policy for evaluation
+            action, _ = model.predict(obs, deterministic=True)
+
+            # step the env
+            step_result = env.step(action)
+            # gymnasium variant: (obs, reward, terminated, truncated, info)
+            if len(step_result) == 5:
+                obs, reward, terminated, truncated, info = step_result
+                done = terminated or truncated
+            else:
+                # older gym: (obs, reward, done, info)
+                obs, reward, done, info = step_result
+
+            # Extract metrics from env.info (env.step returns info with metrics)
+            m = info.get("metrics", {}) if isinstance(info, dict) else {}
+            append_metric("ppo", "delay", float(m.get("avg_delay", 0.0)))
+            append_metric("ppo", "queue", float(m.get("avg_queue", 0.0)))
+            append_metric("ppo", "throughput", float(m.get("throughput_total", 0)))
+            append_metric("ppo", "stops", float(m.get("stop_ratio", 0.0)))
+            # compute pressure from metrics if provided (fallback to 0)
+            inc = sum(m.get("queues", [])) if m.get("queues") else 0
+            out = 0  # env does not give outgoing lanes counts in metrics directly, we used throughput instead
+            append_metric("ppo", "pressure", float(inc - out))
+
+            # small sleep not required; env.step() executes SUMO steps internally
+            # but if you want to throttle plotting, use plot_update_interval
+    except Exception as e:
+        print("PPO worker exception:", e)
+    finally:
+        try:
+            env.close()
+        except Exception:
+            pass
+        print("PPO worker finished.")
+
+# -------------- PLOTTING THREAD --------------
+def plotting_thread():
+    plt.ion()
+    fig, axs = plt.subplots(5, 1, figsize=(14, 16))
+    names = ["delay", "queue", "throughput", "stops", "pressure"]
+    while True:
+        time.sleep(PLOT_UPDATE_INTERVAL)
+        for i, name in enumerate(names):
+            axs[i].clear()
+            with locks["fixed"]:
+                f = np.array(metrics["fixed"][name])
+            with locks["ppo"]:
+                p = np.array(metrics["ppo"][name])
+            if f.size > 0:
+                axs[i].plot(f, label="Fixed", linewidth=2)
+            if p.size > 0:
+                axs[i].plot(p, label="PPO", linewidth=2)
+            axs[i].set_title(name.capitalize())
+            axs[i].legend()
+            axs[i].grid(True)
+        plt.tight_layout()
+        plt.draw()
+        plt.pause(0.001)
+
+# -------------- MAIN --------------
+def main():
+    # Clean previous stuck SUMO processes (optional, recommended for Windows testing)
+    # Uncomment if you want automatic kill (be careful!)
+    # os.system('taskkill /IM sumo.exe /F')
+    # os.system('taskkill /IM sumo-gui.exe /F')
+
+    # Start PPO sumo (headless) and Fixed sumo (GUI)
+    ppo_proc = start_sumo_subprocess(SUMO_BINARY, SUMO_CFG, PPO_PORT, use_gui=False)
+    time.sleep(0.8)   # allow SUMO time to bind the port
+    fixed_proc = start_sumo_subprocess(SUMO_GUI_BINARY, SUMO_CFG, FIXED_PORT, use_gui=True)
+    time.sleep(1.0)
+
+    # Start worker threads
+    t_fixed = threading.Thread(target=fixed_worker, args=(FIXED_PORT,), daemon=True)
+    t_ppo = threading.Thread(target=ppo_worker, args=(PPO_PORT,), daemon=True)
+    t_plot = threading.Thread(target=plotting_thread, daemon=True)
+
+    t_fixed.start()
+    t_ppo.start()
+    t_plot.start()
+
+    try:
+        # keep this main thread alive while processes run
+        while (ppo_proc.poll() is None) or (fixed_proc.poll() is None):
+            time.sleep(1.0)
+    except KeyboardInterrupt:
+        print("Interrupted by user — shutting down...")
+
+    # graceful shutdown
+    try:
+        ppo_proc.terminate()
+    except Exception:
+        pass
+    try:
+        fixed_proc.terminate()
+    except Exception:
+        pass
+    print("All done.")
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<additional xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/additional_file.xsd">
+
+    <!-- ========================================================= -->
+    <!--  VEHICLE TYPES WITH VALID GUI SHAPES                     -->
+    <!-- ========================================================= -->
+
+    <!-- Small Car -->
+    <vType id="car_small" vClass="passenger" accel="2.5" decel="4.0"
+           length="3.7" width="1.6" maxSpeed="22"
+           color="random" guiShape="passenger"/>
+
+    <!-- Normal Car -->
+    <vType id="car_normal" vClass="passenger" accel="2.6" decel="4.5"
+           length="4.3" width="1.75" maxSpeed="25"
+           color="random" guiShape="passenger"/>
+
+    <!-- SUV -->
+    <vType id="car_suv" vClass="passenger" accel="2.3" decel="4.2"
+           length="4.8" width="2.0" maxSpeed="23"
+           color="random" guiShape="passenger"/>
+
+    <!-- Sports Car -->
+    <vType id="car_sport" vClass="passenger" accel="3.5" decel="5.5"
+           length="4.2" width="1.8" maxSpeed="35"
+           color="random" guiShape="passenger"/>
+
+    <!-- ========================================================= -->
+    <!--  HEAVY VEHICLES (reduced demand)                         -->
+    <!-- ========================================================= -->
+
+    <!-- Truck -->
+    <vType id="truck" vClass="truck" accel="1.2" decel="2.5"
+           length="7.0" width="2.5" maxSpeed="18"
+           color="1,0.5,0" guiShape="truck"/>
+
+    <!-- Trailer -->
+    <vType id="trailer" vClass="truck" accel="1.0" decel="2.0"
+           length="12.0" width="2.6" maxSpeed="16"
+           color="0.9,0.4,0.1" guiShape="truck"/>
+
+    <!-- ========================================================= -->
+    <!--  BUS TYPES (reduced demand)                               -->
+    <!-- ========================================================= -->
+
+    <!-- City Bus -->
+    <vType id="bus_city" vClass="bus" accel="1.0" decel="2.0"
+           length="12.0" width="2.5" maxSpeed="16"
+           color="0.1,0.3,1" guiShape="bus"/>
+
+    <!-- Articulated Bus -->
+    <vType id="bus_articulated" vClass="bus" accel="0.8" decel="1.8"
+           length="18.0" width="2.6" maxSpeed="15"
+           color="0.2,0.2,0.8" guiShape="bus"/>
+
+    <!-- ========================================================= -->
+    <!--  MOTORBIKES                                               -->
+    <!-- ========================================================= -->
+
+    <vType id="moto" vClass="motorcycle" accel="3.5" decel="5.0"
+           length="2.2" width="0.7" maxSpeed="28"
+           color="random" guiShape="motorcycle"/>
+
+</additional>

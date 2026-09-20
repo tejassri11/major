@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Traffic Light Definitions for Delhi-Gurgaon NH48 Corridor
+    3 signalized intersections:
+      TL_A: cluster_266437400_266437558 (8 links)
+      TL_B: 317145283                 (10 links)
+      TL_C: cluster_4162190061_4162190645 (9 links)
+-->
+<additional>
+
+    <!-- TL_A: cluster_266437400_266437558 -->
+    <tlLogic id="cluster_266437400_266437558" type="static" programID="rl_program" offset="0">
+        <!-- Phase A (Action 0): Links 0,1,2 -->
+        <phase duration="30" state="GGGrrrrr"/>
+        <phase duration="4"  state="yyyrrrrr"/>
+        <!-- Phase B (Action 1): Links 3,4 -->
+        <phase duration="36" state="rrrGGrrr"/>
+        <phase duration="4"  state="rrryyyrr"/>
+        <!-- Phase C (Action 2): Links 5,6,7 -->
+        <phase duration="36" state="rrrrrGGG"/>
+        <phase duration="4"  state="rrrrryyy"/>
+    </tlLogic>
+
+    <!-- TL_B: 317145283 -->
+    <tlLogic id="317145283" type="static" programID="rl_program" offset="0">
+        <!-- Phase A (Action 0): Links 0,1,2 -->
+        <phase duration="30" state="GGGrrrrrrr"/>
+        <phase duration="4"  state="yyyrrrrrrr"/>
+        <!-- Phase B (Action 1): Links 3,4,5 -->
+        <phase duration="36" state="rrrGGGrrrr"/>
+        <phase duration="4"  state="rrryyyrrrr"/>
+        <!-- Phase C (Action 2): Links 6,7,8,9 -->
+        <phase duration="36" state="rrrrrrGGGG"/>
+        <phase duration="4"  state="rrrrrryyyy"/>
+    </tlLogic>
+
+    <!-- TL_C: cluster_4162190061_4162190645 -->
+    <tlLogic id="cluster_4162190061_4162190645" type="static" programID="rl_program" offset="0">
+        <!-- Phase A (Action 0): Links 0,1,2 -->
+        <phase duration="30" state="GGGrrrrrr"/>
+        <phase duration="4"  state="yyyrrrrrr"/>
+        <!-- Phase B (Action 1): Links 3,4 -->
+        <phase duration="36" state="rrrGGrrrr"/>
+        <phase duration="4"  state="rrryyrrrr"/>
+        <!-- Phase C (Action 2): Links 5,6,7,8 -->
+        <phase duration="36" state="rrrrrGGGG"/>
+        <phase duration="4"  state="rrrrryyyy"/>
+    </tlLogic>
+
+</additional>

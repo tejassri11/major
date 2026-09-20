@@ -1,0 +1,103 @@
+# --------------------------
+# PLOTTING SETUP (SEPARATE WINDOWS)
+# --------------------------
+
+plt.style.use("ggplot")
+
+fig_delay = plt.figure(figsize=(10, 4))
+ax_delay = fig_delay.add_subplot(1, 1, 1)
+fig_delay.canvas.manager.set_window_title("Average Delay")
+
+fig_queue = plt.figure(figsize=(10, 4))
+ax_queue = fig_queue.add_subplot(1, 1, 1)
+fig_queue.canvas.manager.set_window_title("Queue Length")
+
+fig_tp = plt.figure(figsize=(10, 4))
+ax_tp = fig_tp.add_subplot(1, 1, 1)
+fig_tp.canvas.manager.set_window_title("Throughput")
+
+fig_stops = plt.figure(figsize=(10, 4))
+ax_stops = fig_stops.add_subplot(1, 1, 1)
+fig_stops.canvas.manager.set_window_title("Stop Ratio")
+
+fig_press = plt.figure(figsize=(10, 4))
+ax_press = fig_press.add_subplot(1, 1, 1)
+fig_press.canvas.manager.set_window_title("Pressure")
+
+
+def update(frame):
+
+    traci.simulationStep()
+    veh_ids = traci.vehicle.getIDList()
+
+    # -------- DELAY --------
+    delays = []
+    for vid in veh_ids:
+        v = traci.vehicle.getSpeed(vid)
+        allowed = traci.vehicle.getAllowedSpeed(vid)
+        d = 1 - (v / allowed) if allowed > 0 else 0
+        delays.append(d)
+    avg_delay = np.mean(delays) if delays else 0
+    history_delay.append(avg_delay)
+
+    # -------- QUEUE --------
+    q = [traci.lane.getLastStepHaltingNumber(l) for l in incoming_lanes]
+    history_queue.append(np.mean(q))
+
+    # -------- THROUGHPUT --------
+    throughput = sum(traci.lane.getLastStepVehicleNumber(l) for l in outgoing_lanes)
+    history_throughput.append(throughput)
+
+    # -------- STOPS --------
+    stops = sum(1 for vid in veh_ids if traci.vehicle.getSpeed(vid) < 0.1)
+    history_stops.append(stops / len(veh_ids) if veh_ids else 0)
+
+    # -------- PRESSURE --------
+    incoming_sum = sum(traci.lane.getLastStepVehicleNumber(l) for l in incoming_lanes)
+    outgoing_sum = sum(traci.lane.getLastStepVehicleNumber(l) for l in outgoing_lanes)
+    history_pressure.append(incoming_sum - outgoing_sum)
+
+    # -----------------------------
+    # UPDATE EACH WINDOW
+    # -----------------------------
+
+    # Delay
+    ax_delay.clear()
+    ax_delay.plot(history_delay)
+    ax_delay.set_title("Average Delay (0 = no delay, 1 = full stop)")
+    ax_delay.set_ylim(0, 1)
+    ax_delay.grid(True)
+    fig_delay.canvas.draw_idle()
+
+    # Queue
+    ax_queue.clear()
+    ax_queue.plot(history_queue)
+    ax_queue.set_title("Average Queue Length (incoming lanes)")
+    ax_queue.grid(True)
+    fig_queue.canvas.draw_idle()
+
+    # Throughput
+    ax_tp.clear()
+    ax_tp.plot(history_throughput)
+    ax_tp.set_title("Vehicles Passing (Throughput)")
+    ax_tp.grid(True)
+    fig_tp.canvas.draw_idle()
+
+    # Stops
+    ax_stops.clear()
+    ax_stops.plot(history_stops)
+    ax_stops.set_title("Stop Ratio")
+    ax_stops.set_ylim(0, 1)
+    ax_stops.grid(True)
+    fig_stops.canvas.draw_idle()
+
+    # Pressure
+    ax_press.clear()
+    ax_press.plot(history_pressure)
+    ax_press.set_title("Pressure (incoming - outgoing)")
+    ax_press.grid(True)
+    fig_press.canvas.draw_idle()
+
+
+ani = FuncAnimation(fig_delay, update, interval=50, repeat=False)
+plt.show()
