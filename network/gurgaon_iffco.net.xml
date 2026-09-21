@@ -1,52 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<!-- generated on 2026-09-20T20:44:56.635628+05:30 by Eclipse SUMO netconvert 1.27.1
-<netconvertConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netconvertConfiguration.xsd">
-
-    <input>
-        <osm-files value="network/gurgaon_iffco.osm"/>
-    </input>
-
-    <output>
-        <output-file value="network/gurgaon_iffco.net.xml"/>
-    </output>
-
-    <projection>
-        <proj.utm value="true"/>
-    </projection>
-
-    <processing>
-        <geometry.remove value="true"/>
-        <offset.disable-normalization value="true"/>
-        <roundabouts.guess value="true"/>
-        <lefthand value="true"/>
-    </processing>
-
-    <tls_building>
-        <tls.discard-simple value="true"/>
-        <tls.join value="true"/>
-        <tls.guess-signals value="true"/>
-    </tls_building>
-
-    <ramp_guessing>
-        <ramps.guess value="true"/>
-    </ramp_guessing>
-
-    <junctions>
-        <junctions.join value="true"/>
-    </junctions>
-
-    <report>
-        <no-warnings value="true"/>
-    </report>
-
-</netconvertConfiguration>
--->
-
 <net version="1.20" junctionCornerDetail="5" lefthand="true" limitTurnSpeed="5.50" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/net_file.xsd">
-
     <location netOffset="0.00,0.00" convBoundary="699124.01,3146866.98,705031.20,3152345.79" origBoundary="76.520640,28.049259,77.255576,28.597584" projParameter="+proj=utm +zone=43 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"/>
-
     <type id="highway.footway" priority="1" numLanes="1" speed="2.78" allow="pedestrian" oneway="1" width="2.00"/>
     <type id="highway.living_street" priority="2" numLanes="1" speed="2.78" disallow="tram rail_urban rail rail_electric rail_fast ship container cable_car subway aircraft wheelchair scooter drone" oneway="0"/>
     <type id="highway.motorway" priority="14" numLanes="2" speed="39.44" allow="private emergency authority army vip passenger hov taxi bus coach delivery truck trailer motorcycle evehicle custom1 custom2" oneway="1"/>
@@ -63,7 +17,6 @@
     <type id="highway.tertiary" priority="10" numLanes="1" speed="22.22" disallow="tram rail_urban rail rail_electric rail_fast ship container cable_car subway aircraft wheelchair scooter drone" oneway="0"/>
     <type id="highway.tertiary_link" priority="5" numLanes="1" speed="22.22" disallow="tram rail_urban rail rail_electric rail_fast ship container cable_car subway aircraft wheelchair scooter drone" oneway="0"/>
     <type id="railway.subway" priority="18" numLanes="1" speed="27.78" allow="subway" oneway="1"/>
-
     <edge id=":10002106866_0" function="internal">
         <lane id=":10002106866_0_0" index="0" disallow="tram rail_urban rail rail_electric rail_fast ship container cable_car subway aircraft wheelchair scooter drone" speed="13.89" length="13.82" shape="701648.36,3149587.78 701640.10,3149576.70"/>
     </edge>
@@ -37570,7 +37523,6 @@
     <edge id=":cluster_8720962317_8720962319_11" function="internal">
         <lane id=":cluster_8720962317_8720962319_11_0" index="0" disallow="tram rail_urban rail rail_electric rail_fast ship container cable_car subway aircraft wheelchair scooter drone" speed="3.65" length="3.23" shape="702213.08,3150040.42 702213.95,3150040.25 702214.34,3150039.44 702214.24,3150038.00"/>
     </edge>
-
     <edge id="-1057547237#0" from="11486479017" to="6659864862" priority="1" type="highway.service" shape="703929.43,3150748.56 703929.38,3150784.50 703930.26,3150786.85 703933.56,3150788.08 704002.56,3150789.94 704006.09,3150798.93 704007.38,3150811.41">
         <lane id="-1057547237#0_0" index="0" allow="pedestrian delivery bicycle" speed="5.56" length="123.46" shape="703927.82,3150753.21 703927.78,3150784.79 703929.02,3150788.09 703933.25,3150789.67 704001.46,3150791.51 704004.52,3150799.31 704005.26,3150806.50"/>
     </edge>
@@ -50159,7 +50111,6 @@
     <edge id="997871855" from="1561130292" to="9213699814" priority="1" type="highway.footway" spreadType="center">
         <lane id="997871855_0" index="0" allow="pedestrian" speed="2.78" length="17.39" width="2.00" shape="702324.42,3150930.08 702336.73,3150917.80"/>
     </edge>
-
     <tlLogic id="317145283" type="static" programID="0" offset="0">
         <phase duration="39" state="rrrrGggGGg"/>
         <phase duration="6"  state="rrrryyyyyy"/>
@@ -50190,7 +50141,6 @@
         <phase duration="39" state="GGGGrrrrr"/>
         <phase duration="6"  state="yyyyrrrrr"/>
     </tlLogic>
-
     <junction id="10002106866" type="priority" x="701643.02" y="3149583.56" incLanes="-423065712#2_0 213174518#1_0 423065712#1_0" intLanes=":10002106866_0_0 :10002106866_9_0 :10002106866_10_0 :10002106866_3_0 :10002106866_4_0 :10002106866_5_0 :10002106866_6_0 :10002106866_7_0 :10002106866_11_0" shape="701649.56,3149586.68 701644.77,3149591.06 701643.13,3149589.48 701642.18,3149589.19 701641.13,3149589.23 701639.99,3149589.59 701638.76,3149590.28 701635.19,3149584.97 701636.77,3149583.37 701637.10,3149582.48 701637.11,3149581.54 701636.80,3149580.54 701636.19,3149579.48 701641.40,3149575.77">
         <request index="0" response="000000000" foes="100010000" cont="0"/>
         <request index="1" response="011000000" foes="011110000" cont="1"/>
@@ -64318,7 +64268,6 @@
         <request index="7" response="000000000" foes="000011110" cont="0"/>
         <request index="8" response="000010001" foes="000010001" cont="1"/>
     </junction>
-
     <junction id=":10002106866_9_0" type="internal" x="701645.47" y="3149584.96" incLanes=":10002106866_1_0 423065712#1_0" intLanes=":10002106866_4_0 :10002106866_5_0 :10002106866_6_0 :10002106866_7_0"/>
     <junction id=":10002106866_10_0" type="internal" x="701646.94" y="3149587.42" incLanes=":10002106866_2_0 213174518#1_0 423065712#1_0" intLanes=":10002106866_3_0 :10002106866_7_0"/>
     <junction id=":10002106866_11_0" type="internal" x="701638.84" y="3149579.07" incLanes=":10002106866_8_0 -423065712#2_0 213174518#1_0" intLanes=":10002106866_0_0 :10002106866_4_0"/>
@@ -66348,7 +66297,6 @@
     <junction id=":cluster_8720962317_8720962319_9_0" type="internal" x="702222.18" y="3150049.47" incLanes=":cluster_8720962317_8720962319_1_0 48045689#5_0" intLanes=":cluster_8720962317_8720962319_4_0 :cluster_8720962317_8720962319_5_0 :cluster_8720962317_8720962319_6_0 :cluster_8720962317_8720962319_7_0"/>
     <junction id=":cluster_8720962317_8720962319_10_0" type="internal" x="702225.64" y="3150054.17" incLanes=":cluster_8720962317_8720962319_2_0 1185965659_0 48045689#5_0" intLanes=":cluster_8720962317_8720962319_3_0 :cluster_8720962317_8720962319_7_0"/>
     <junction id=":cluster_8720962317_8720962319_11_0" type="internal" x="702213.08" y="3150040.42" incLanes=":cluster_8720962317_8720962319_8_0 -48045689#7_0 1185965659_0" intLanes=":cluster_8720962317_8720962319_0_0 :cluster_8720962317_8720962319_4_0"/>
-
     <connection from="-1057547237#0" to="415417690#4" fromLane="0" toLane="0" via=":6659864862_3_0" dir="l" state="m"/>
     <connection from="-1057547237#0" to="1057547237#0" fromLane="0" toLane="0" via=":6659864862_4_0" dir="T" state="m"/>
     <connection from="-1057547237#1" to="-1236888340" fromLane="0" toLane="0" via=":11486479017_0_0" dir="l" state="M"/>
@@ -76968,7 +76916,6 @@
     <connection from="968337495#1" to="-968337495#1" fromLane="0" toLane="0" via=":8958578804_0_0" dir="T" state="M"/>
     <connection from="968664784" to="-968664784" fromLane="0" toLane="0" via=":8961915074_0_0" dir="T" state="M"/>
     <connection from="968664785" to="-968664785" fromLane="0" toLane="0" via=":8961915076_0_0" dir="T" state="M"/>
-
     <connection from=":10002106866_0" to="-423065712#1" fromLane="0" toLane="0" dir="s" state="M"/>
     <connection from=":10002106866_1" to="-213174518#1" fromLane="0" toLane="0" via=":10002106866_9_0" dir="r" state="m"/>
     <connection from=":10002106866_9" to="-213174518#1" fromLane="0" toLane="0" dir="r" state="M"/>
@@ -89617,7 +89564,6 @@
     <connection from=":cluster_8720962317_8720962319_7" to="48045689#7" fromLane="0" toLane="0" dir="s" state="M"/>
     <connection from=":cluster_8720962317_8720962319_8" to="-48045689#5" fromLane="0" toLane="0" via=":cluster_8720962317_8720962319_11_0" dir="T" state="m"/>
     <connection from=":cluster_8720962317_8720962319_11" to="-48045689#5" fromLane="0" toLane="0" dir="T" state="M"/>
-
     <roundabout nodes="5306089190 5306089195 9903511563" edges="1080466429 661357327 661357329"/>
     <roundabout nodes="4140363838 5936660512 5936660541" edges="1103513657 628787451 628787869"/>
     <roundabout nodes="11182432528 11182432530 11182459343" edges="1206775676#0 1206775676#1 1206775676#2"/>
@@ -89626,5 +89572,4 @@
     <roundabout nodes="10978155859 10978155866 6659846851" edges="213174840#0 213174840#1 213174840#2"/>
     <roundabout nodes="6643253047 6643253051 6643253058" edges="706942118#1 706942118#2 706942118#3"/>
     <roundabout nodes="2229152181 2229152285 2229152298" edges="709898683#0 709898683#1 709898684"/>
-
 </net>
